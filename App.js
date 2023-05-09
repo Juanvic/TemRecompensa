@@ -1,62 +1,64 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Button, Pressable} from 'react-native';
 import { useEffect, useState } from 'react';
+import { useFonts } from 'expo-font';
 
 export default function App() {
-  // let [isLoading, setIsLoading] = useState(true);
-  // let [error, setError] = useState();
-  // let [response, setResponse] = useState();
+  const [loaded] = useFonts({
+    'Temfont-Regular': require('./assets/fonts/Temfont-Regular.otf'),
+  });
 
   const [carregando, setCarregando] = useState(true)
   const [dados, setDados] = useState([])
 
   useEffect(() => {
-    // fetch("https://jsonplaceholder.typicode.com/users") //DEUCERTO
     // fetch("https://temtem-api.mael.tech/api/freetem/rewards")
-    fetch("https://temtem-api.mael.tech/api/patches")
-      .then((resp) => resp.json())
-      .then((json) => setDados(json))
-      .catch(() => (alert('Erro ao carregar lista')))
-      .finally(() => setCarregando(false))
+    // fetch("https://temtem-api.mael.tech/api/patches")
+    // Promise.all([ 
+    //   fetch('https://temtem-api.mael.tech/api/temtems/128')
+    //   .then(resp => resp.json()),
+    // ]);
+    fetch("https://temtem-api.mael.tech/api/saipark")
+    .then((resp) => resp.json())
+    .then((json) => setDados(json))
+    .then(json => console.log(JSON.stringify(json)))
+    .catch(() => (alert('Erro ao carregar lista')))
+    .finally(() => setCarregando(false))
   }, []
   )
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
 
     <View style={styles.container}>
-      {/* <View style={styles.card}> //Teste sem FlatList
-        <ScrollView>
-          <Text>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Text>
-
-        </ScrollView>
-      </View> */}
       <StatusBar style='auto' />
-      <Text style={[styles.header]}>Lista de Patches</Text>
+      <Text style={[styles.header]}>Lista de Saipark</Text>
       {
         carregando ? <ActivityIndicator /> : (
           <FlatList
             style={styles.lista}
             data={dados}
             // keyExtractor={({id},index)=>id}
+            // keyExtractor={item => item.id}
             renderItem={({ item }) => (
-              //por enquanto farei apenas patches e depois saipark
-              <View style={styles.card}>
-                <Text style={styles.textoPatch}>
-                  Nome: {item.name} {'\n'}
-                  Data: {item.date} {'\n'}
-                  Detalhes: {item.patchInfo.features.join('\n')}
-                  {/*\n*/}
-                  
-                  {/* Nome: {item.name} {'\n'}
-                  Quantidade:{item.quantity} {'\n'}
-                  Requisitos:{item.requirement} {'\n'}
-                  Data inicial:{item.startDate} {'\n'}
-                  Data final:{item.endDate} {'\n'} */}
+              <View style={[styles.card, styles.shadowProp]}>
+                <Text style={styles.textoSaipark}>
+                  Período: De {item.startDateFormatted} ate {item.endDateFormatted} {'\n'}
+                  Temtem¹: {item.land.map((secItem) => (
+                  secItem.temtem)).join('\nTemtem²: ')} {'\n'}
+                  Chance¹: {item.land.map((secItem) => (
+                    'x'+secItem.lumaRate
+                  )).join('\nChance²: ')} {'\n'}
+                  Porcentagem de Encontro¹: {item.land.map((secItem) => (
+                  secItem.ratePercent+ '%')).join('\nPorcentagem de Encontro²: ')} {'\n'}
+                  Local¹: {item.land.map((secItem) => (
+                    secItem.areas
+                  )).join('\nLocal²: ')} {'\n'}
+
+
                 </Text>
               </View>
             )
@@ -64,6 +66,9 @@ export default function App() {
           />
         )
       }
+      <Pressable style={styles.fab} onPress={'onPress'}>
+        <Text style={styles.text}>R</Text>
+      </Pressable>
     </View>
   );
   // function incrementa (){
@@ -87,19 +92,23 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    color: "#000",
-    fontSize: 20,
+    color: "#fba056",
+    borderColor: "#402c4a",
     marginTop: 10,
+    fontFamily: 'Temfont-Regular',
+    fontSize: 27
   },
   lista: {
     // flex: 1,
     // width: '100%',
     // backgroundColor: 'blue',
   },
-  textoPatch: {
+  textoSaipark: {
     paddingTop: 10,
     paddingBottom: 10,
-    color: '#000'
+    color: '#000',
+    fontFamily: 'Temfont-Regular',
+    fontSize: 23
   },
   card: {
     backgroundColor: '#fff',
@@ -108,7 +117,25 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     marginTop: 30,
-
-
+    elevation: 2,
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+  },
+  fab: {
+    borderWidth: 1,
+    borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    height: 70,
+    backgroundColor: '#fff',
+    borderRadius: 100,
   }
 });
