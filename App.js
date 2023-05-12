@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Button, Pressable} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Button, Pressable, Alert, LogBox} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
 
@@ -11,13 +11,13 @@ export default function App() {
   const [carregando, setCarregando] = useState(true)
   const [dados, setDados] = useState([])
 
+
   useEffect(() => {
     // fetch("https://temtem-api.mael.tech/api/freetem/rewards")
     // fetch("https://temtem-api.mael.tech/api/patches")
-    // Promise.all([ 
-    //   fetch('https://temtem-api.mael.tech/api/temtems/128')
-    //   .then(resp => resp.json()),
-    // ]);
+    // Promise.all([
+    //   fetch("https://temtem-api.mael.tech/api/temtems")
+    // ]).then((value) => value.json())
     fetch("https://temtem-api.mael.tech/api/saipark")
     .then((resp) => resp.json())
     .then((json) => setDados(json))
@@ -31,6 +31,9 @@ export default function App() {
     return null;
   }
 
+
+  LogBox.ignoreAllLogs(true) //Desabilita os warnings no app
+
   return (
 
     <View style={styles.container}>
@@ -39,6 +42,8 @@ export default function App() {
       {
         carregando ? <ActivityIndicator /> : (
           <FlatList
+            // initialNumToRender={2}
+            // windowSize={3}
             style={styles.lista}
             data={dados}
             // keyExtractor={({id},index)=>id}
@@ -46,7 +51,7 @@ export default function App() {
             renderItem={({ item }) => (
               <View style={[styles.card, styles.shadowProp]}>
                 <Text style={styles.textoSaipark}>
-                  Período: De {item.startDateFormatted} ate {item.endDateFormatted} {'\n'}
+                  Periodo: De {item.startDateFormatted} a {item.endDateFormatted} {'\n'}
                   Temtem¹: {item.land.map((secItem) => (
                   secItem.temtem)).join('\nTemtem²: ')} {'\n'}
                   Chance¹: {item.land.map((secItem) => (
@@ -57,31 +62,24 @@ export default function App() {
                   Local¹: {item.land.map((secItem) => (
                     secItem.areas
                   )).join('\nLocal²: ')} {'\n'}
-
-
                 </Text>
+                {/* Aqui deveria ficar as imagens dos tems ou a imagem do tweet do saipark */}
+                {/* <Image source={{uri: `${item.tweet}`}}
+                  style={{flex:1, width: 300, height: 200, resizeMode: 'contain'}}
+                /> */}
+                
               </View>
             )
-            }
+          }
           />
-        )
+          )
       }
-      <Pressable style={styles.fab} onPress={'onPress'}>
-        <Text style={styles.text}>R</Text>
+      <Pressable style={styles.fab} onPress={() => Alert.alert('Este botão deve recarregar a página!')}>
+        <Image source={require('./assets/refresh.png')}/>
       </Pressable>
     </View>
   );
-  // function incrementa (){
-  //   for (var i = 0; i < item.patchInfo.features.length; i++) {
-  //     if (item.patchInfo.features[i].selected) {
-  //       i++;
-  //       console.log(i);
-  //     }
-  //   }
-  //   return i;
-  // }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 23
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#72d5ce',
     borderRadius: 10,
     padding: 12,
     // justifyContent: 'center',
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
     bottom: 10,
     right: 10,
     height: 70,
-    backgroundColor: '#fff',
+    backgroundColor: '#fba056',
     borderRadius: 100,
   }
 });
