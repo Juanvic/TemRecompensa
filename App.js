@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Button, Pressable, Alert, LogBox} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Pressable, Alert, LogBox} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
 
@@ -10,7 +10,7 @@ export default function App() {
 
   const [carregando, setCarregando] = useState(true)
   const [dados, setDados] = useState([])
-
+  const [pressionado, naoPressionado] = useState(true);
 
   useEffect(() => {
     // fetch("https://temtem-api.mael.tech/api/freetem/rewards")
@@ -38,16 +38,16 @@ export default function App() {
 
     <View style={styles.container}>
       <StatusBar style='auto' />
-      <Text style={[styles.header]}>Lista de Saipark</Text>
+      <Text style={[styles.header]}>Recompensas do Saipark</Text>
       {
         carregando ? <ActivityIndicator /> : (
           <FlatList
-            // initialNumToRender={2}
+            initialNumToRender={2}
             // windowSize={3}
             style={styles.lista}
             data={dados}
             // keyExtractor={({id},index)=>id}
-            // keyExtractor={item => item.id}
+            keyExtractor={item => item.dataRange}
             renderItem={({ item }) => (
               <View style={[styles.card, styles.shadowProp]}>
                 <Text style={styles.textoSaipark}>
@@ -62,19 +62,24 @@ export default function App() {
                   Local¹: {item.land.map((secItem) => (
                     secItem.areas
                   )).join('\nLocal²: ')} {'\n'}
+                  {/* String: {item.land.map((secItem) => (
+                  secItem.temtem)).toString()} {'\n'} */}
                 </Text>
                 {/* Aqui deveria ficar as imagens dos tems ou a imagem do tweet do saipark */}
                 {/* <Image source={{uri: `${item.tweet}`}}
-                  style={{flex:1, width: 300, height: 200, resizeMode: 'contain'}}
+                  style={{flex:1, width: 280, height: 200, resizeMode: 'contain'}}
                 /> */}
-                
               </View>
             )
           }
           />
           )
       }
-      <Pressable style={styles.fab} onPress={() => Alert.alert('Este botão deve recarregar a página!')}>
+      <Pressable style={styles.fab} onPress={() => Alert.alert('Este botão deve recarregar a página!')}
+      
+        // onPress={() => Alert.alert('Este botão deve recarregar a página!')}
+        
+      >
         <Image source={require('./assets/refresh.png')}/>
       </Pressable>
     </View>
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   },
   header: {
     color: "#fba056",
-    borderColor: "#402c4a",
+    // borderColor: "#402c4a",
     marginTop: 10,
     fontFamily: 'Temfont-Regular',
     fontSize: 27
@@ -103,15 +108,21 @@ const styles = StyleSheet.create({
   },
   textoSaipark: {
     paddingTop: 10,
-    paddingBottom: 10,
+    // paddingBottom: 10,
     color: '#000',
     fontFamily: 'Temfont-Regular',
     fontSize: 23
   },
   card: {
-    backgroundColor: '#72d5ce',
+    backgroundColor: '#3be9e7',
+    borderWidth: 5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     borderRadius: 10,
     padding: 12,
+    // paddingTop: 12,
+    // paddingLeft: 10,
+    // paddingRight: 10,
     // justifyContent: 'center',
     // alignItems: 'center',
     marginTop: 30,

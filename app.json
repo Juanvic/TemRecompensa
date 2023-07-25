@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "TemRecompensa",
-    "slug": "TemRecompensa",
+    "slug": "tem-recompensa",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.juanvic.temrecompensa"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "09805a52-84ea-4093-810a-39b6f3fcb273"
+      }
+    },
+    "owner": "juanvic"
   }
 }
