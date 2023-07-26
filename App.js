@@ -14,7 +14,9 @@ export default function App() {
 
   const pullMe = () => {
     setRefresh(true)
+    setCarregando(true)
     setTimeout(()=>{
+      setCarregando(false)
       setRefresh(false)
     }, 4000)
   }
