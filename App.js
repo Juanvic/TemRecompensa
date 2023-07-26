@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Pressable, Alert, LogBox} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Pressable, Alert, LogBox, RefreshControl, ScrollView, SafeAreaView} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
 
@@ -10,7 +10,14 @@ export default function App() {
 
   const [carregando, setCarregando] = useState(true)
   const [dados, setDados] = useState([])
-  const [pressionado, naoPressionado] = useState(true);
+  const [refresh, setRefresh] = useState(false);
+
+  const pullMe = () => {
+    setRefresh(true)
+    setTimeout(()=>{
+      setRefresh(false)
+    }, 4000)
+  }
 
   useEffect(() => {
     // fetch("https://temtem-api.mael.tech/api/freetem/rewards")
@@ -36,15 +43,19 @@ export default function App() {
 
   return (
 
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style='auto' />
       <Text style={[styles.header]}>Recompensas do Saipark</Text>
+      <ScrollView style={styles.scroll}
+        refreshControl={
+          <RefreshControl refreshing={refresh} onRefresh={()=>pullMe} />
+        }
+      >
       {
         carregando ? <ActivityIndicator /> : (
           <FlatList
             initialNumToRender={2}
             // windowSize={3}
-            style={styles.lista}
             data={dados}
             // keyExtractor={({id},index)=>id}
             keyExtractor={item => item.dataRange}
@@ -75,14 +86,15 @@ export default function App() {
           />
           )
       }
-      <Pressable style={styles.fab} onPress={() => Alert.alert('Este botão deve recarregar a página!')}
+      </ScrollView>
+      <Pressable style={styles.fab} onPress={pullMe}
       
         // onPress={() => Alert.alert('Este botão deve recarregar a página!')}
         
       >
         <Image source={require('./assets/refresh.png')}/>
       </Pressable>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -92,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f7f7f7',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
+    paddingTop: 20,
   },
   header: {
     color: "#fba056",
@@ -100,11 +112,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontFamily: 'Temfont-Regular',
     fontSize: 27
-  },
-  lista: {
-    // flex: 1,
-    // width: '100%',
-    // backgroundColor: 'blue',
   },
   textoSaipark: {
     paddingTop: 10,
@@ -146,5 +153,7 @@ const styles = StyleSheet.create({
     height: 70,
     backgroundColor: '#fba056',
     borderRadius: 100,
+  },
+  scroll: {
   }
 });
