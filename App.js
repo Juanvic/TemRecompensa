@@ -40,13 +40,12 @@ export default function App() {
     return null;
   }
 
-
   LogBox.ignoreAllLogs(true) //Desabilita os warnings no app
 
   return (
 
     <SafeAreaView style={styles.container}>
-      <StatusBar style='auto' />
+      <StatusBar style='dark' />
       <Text style={[styles.header]}>Recompensas do Saipark</Text>
       <ScrollView style={styles.scroll}
         refreshControl={
@@ -74,9 +73,7 @@ export default function App() {
                   secItem.ratePercent+ '%')).join('\nPorcentagem de Encontro²: ')} {'\n'}
                   Local¹: {item.land.map((secItem) => (
                     secItem.areas
-                  )).join('\nLocal²: ')} {'\n'}
-                  {/* String: {item.land.map((secItem) => (
-                  secItem.temtem)).toString()} {'\n'} */}
+                  )).join('\nLocal²: ')} 
                 </Text>
                 {/* Aqui deveria ficar as imagens dos tems ou a imagem do tweet do saipark */}
                 {/* <Image source={{uri: `${item.tweet}`}}
@@ -90,9 +87,7 @@ export default function App() {
       }
       </ScrollView>
       <Pressable style={styles.fab} onPress={pullMe}
-      
         // onPress={() => Alert.alert('Este botão deve recarregar a página!')}
-        
       >
         <Image source={require('./assets/refresh.png')}/>
       </Pressable>
@@ -117,7 +112,6 @@ const styles = StyleSheet.create({
   },
   textoSaipark: {
     paddingTop: 10,
-    // paddingBottom: 10,
     color: '#000',
     fontFamily: 'Temfont-Regular',
     fontSize: 23
@@ -129,11 +123,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderRadius: 10,
     padding: 12,
-    // paddingTop: 12,
-    // paddingLeft: 10,
-    // paddingRight: 10,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     marginTop: 30,
     elevation: 2,
   },
