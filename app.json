@@ -1,44 +1,45 @@
 {
-  "author": "Juan Almeida",
-  "email": "juanvic.almeida@gmail.com",
-  "expo": {
-    "name": "TemRecompensa",
-    "slug": "tem-recompensa",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
+  "name": "TemRecompensa",
+  "slug": "tem-recompensa",
+  "version": "1.0.1",
+  "orientation": "portrait",
+  "icon": "./assets/icon.png",
+  "userInterfaceStyle": "automatic",
+  "scheme": "temrecompensa-scheme",
+  "splash": {
+    "image": "./assets/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "assetBundlePatterns": [
+    "**/*"
+  ],
+  "ios": {
+    "supportsTablet": true,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    }
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/adaptive-icon.png",
+      "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.juanvic.temrecompensa"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "09805a52-84ea-4093-810a-39b6f3fcb273"
-      }
-    },
-    "owner": "juanvic"
-  }
+    "package": "com.juanvic.temrecompensa"
+  },
+  "web": {
+    "bundler": "metro",
+    "favicon": "./assets/favicon.png"
+  },
+  "extra": {
+    "eas": {
+      "projectId": "09805a52-84ea-4093-810a-39b6f3fcb273"
+    }
+  },
+  "owner": "juanvic",
+  "plugins": [
+    "expo-router"
+  ]
 }

@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Pressable, Alert, LogBox, RefreshControl, ScrollView, SafeAreaView} from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator, FlatList, Image, Pressable, Alert, LogBox, RefreshControl, ScrollView} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useFonts } from 'expo-font';
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function App() {
   const [loaded] = useFonts({
-    'Temfont-Regular': require('./assets/fonts/Temfont-Regular.otf'),
+    'Temfont-Regular': require('../assets/fonts/Temfont-Regular.otf'),
   });
 
   const [carregando, setCarregando] = useState(true)
@@ -89,7 +91,7 @@ export default function App() {
       <Pressable style={styles.fab} onPress={pullMe}
         // onPress={() => Alert.alert('Este botão deve recarregar a página!')}
       >
-        <Image source={require('./assets/refresh.png')}/>
+        <MaterialIcons name="refresh" size={24} color="black" />
       </Pressable>
     </SafeAreaView>
   );
