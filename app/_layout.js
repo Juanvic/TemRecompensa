@@ -10,18 +10,18 @@ export default function StackLayout(){
         <Stack screenOptions={{headerShown: false}}
             
         >
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="App"
             >
-            </Stack.Screen>
+            </Stack.Screen> */}
             <Stack.Screen 
                 name="index"
             >
             </Stack.Screen>
-            <Stack.Screen
+            {/* <Stack.Screen
                 name="about"
             >
-            </Stack.Screen>
+            </Stack.Screen> */}
 
         </Stack>
     )
